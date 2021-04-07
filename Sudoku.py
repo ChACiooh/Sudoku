@@ -3,17 +3,20 @@ import random
 
 check = np.arange(1, 10)
 def filled_in_rule(array):
-    if len(array) != 9:
+    if array.size != 9:
         return False
-    for i in array:
-        if i not in check:
+    for i in check:
+        if i not in array:
+            print(i)
             return False
     return True
 
 def isAcceptMini(board, i):
-    j = i % 3
-    k = j * 3
-    mini = board[j:j+3][k:k+3]
+    j = int(i / 3) * 3
+    k = i % 3 * 3
+    #print('j:{}, k:{}'.format(j, k))
+    mini = board[j:j+3, k:k+3]
+    #print(mini)
     if filled_in_rule(mini) == False:
         return False
     return True
@@ -29,11 +32,12 @@ def isAcceptCols(board):
     return isAcceptRows(np.transpose(board))
 
 def isPassed(board, ci = 0, cj = 0):
-    if ci * cj != 0:
+    """if ci * cj != 0:
         # TODO
-        pass
+        pass"""
     for i in range(9):
         if isAcceptMini(board, i) == False:
+            print('ㅎㅇ', i)
             return False
     return isAcceptRows(board) and isAcceptCols(board)
 
@@ -46,8 +50,8 @@ def gen_initial_sudoku():
         if i % 3 == 0:
             board[i] = np.concatenate((board[i-1][1:], board[i-1][:1]), axis=None)
     
-    print('initial sudoku board:')
-    print(board)
+    #print('initial sudoku board:')
+    #print(board)
     return board
 
 def rotate(board, angle):
@@ -73,8 +77,8 @@ def get_shuffled_sudoku(board):
     samples = random.sample(range(1,10), 8)
     for i in range(4):
         first, second = samples[i*2], samples[i*2+1]
-        print('first : ', first)
-        print('second : ', second)
+        #print('first : ', first)
+        #print('second : ', second)
         flist = np.where(board == first)
         slist = np.where(board == second)
         fi_idx_list = flist[0]
@@ -83,8 +87,8 @@ def get_shuffled_sudoku(board):
         sj_idx_list = slist[1]
         fi_idx_list, si_idx_list = si_idx_list, fi_idx_list
         fj_idx_list, sj_idx_list = sj_idx_list, fj_idx_list
-        print('fi_idx_list', fi_idx_list)
-        print('fj_idx_list', fj_idx_list)
+        #print('fi_idx_list', fi_idx_list)
+        #print('fj_idx_list', fj_idx_list)
         for k in range(fi_idx_list.size):
             fi = fi_idx_list[k]
             fj = fj_idx_list[k]
@@ -94,7 +98,7 @@ def get_shuffled_sudoku(board):
             board[si][sj] = second
 
     n = random.randint(0, 3) * 90
-    print('n:', n)
+    #print('n:', n)
     #board = rotate(board, n)   TODO
     print(board)
     return board
