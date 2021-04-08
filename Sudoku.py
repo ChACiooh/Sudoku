@@ -2,6 +2,11 @@ import numpy as np
 import random
 
 check = np.arange(1, 10)
+ijs = []
+for i in range(9):
+    for j in range(9):
+        ijs.append((i,j))
+
 def filled_in_rule(array):
     if array.size != 9:
         return False
@@ -32,6 +37,7 @@ def isAcceptCols(board):
     return isAcceptRows(np.transpose(board))
 
 def isPassed(board, ci = 0, cj = 0):
+    board = np.array(board) # dealing list as np array. it is okay if already np array type.
     """if ci * cj != 0:
         # TODO
         pass"""
@@ -50,23 +56,23 @@ def gen_initial_sudoku():
         if i % 3 == 0:
             board[i] = np.concatenate((board[i-1][1:], board[i-1][:1]), axis=None)
     
-    #print('initial sudoku board:')
-    #print(board)
     return board
 
-def rotate(board, angle):
+def rotate(board, angle, size = 9):
     angle = np.radians(angle)
     M = np.array([[np.cos(angle), -np.sin(angle)],
                     [np.sin(angle), np.cos(angle)]])
-    new_board = np.zeros([9,9], dtype=int)
-    for i in range(9):
-        for j in range(9):
+    new_board = np.zeros([size,size], dtype=int)
+    for i in range(size):
+        for j in range(size):
             value = board[i][j]
-            tv = np.array([[i - 4, j - 4]])
+            tv = np.array([[i - int(size/2), j - int(size/2)]])
             k = M @ tv.transpose()
             k = k.reshape(2)
+            print(k)
             k = np.array([int(k[0]), int(k[1])])
-            new_board[ k[0] + 4 ][ k[1] + 4 ] = value
+            
+            new_board[ k[0] + int(size/2) ][ k[1] + int(size/2) ] = value
 
     return new_board
 
@@ -100,14 +106,32 @@ def get_shuffled_sudoku(board):
     n = random.randint(0, 3) * 90
     #print('n:', n)
     #board = rotate(board, n)   TODO
-    print(board)
     return board
+
+def convert_sparse_matrix(board, num):
+    num %= 81 # scaling
+    slist = random.sample(ijs, num) # list of tuples
+    for idx in slist:
+        board[idx[0]][idx[1]] = 0
+    return board
+
 
 def main():
     board = gen_initial_sudoku()
+    print(board)
     board = get_shuffled_sudoku(board)
+    print(board)
     if isPassed(board):
         print('통과')
+    if isPassed(board.tolist()):
+        print('통과')
+    nanido = int(input('difficulty(1~3): '))
+    while nanido not in [1,2,3]:
+        print('reinput')
+        nanido = int(input('difficulty(1~3): '))
+    num = nanido * 20 + 5
+    board = convert_sparse_matrix(board, num)
+    print(board)
 
 if __name__ == "__main__":
     main()
