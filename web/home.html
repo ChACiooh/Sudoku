@@ -8,30 +8,29 @@
     <script src="sudoku.js"></script>
 </head>
 
-<a href="#" id="sidebar-toggle">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-</a>
+<body>
+    <h1 id="sudoku_title">SUDOKU</h1>
 
-<h1 id="sudoku_title">SUDOKU</h1>
-
-<div id="sudoku_menu">
-   <button onclick='go()'>New Game!</button>
-</div>
-
-<div id="sudoku_container">
-    
-    <div id="board"></div>
-    <div>
-        <button id="buttonForBoard" type="button" onclick="submit()" >Submit</button>
-        <br>
+    <div id="sudoku_menu">
+        <label for="difficulty-choice">Difficulty: </label>
+        <select id="difficulty-choice">
+            <option value="1" selected>Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+        </select>
+        <button onclick='go(getElementById("difficulty-choice").value)'>New Game!</button>
     </div>
 
-    <input id="Brow" type="number" placeholder="Row" />
-    <input id="Bcol" type="number" placeholder="Col" />
-    <button id="bval" type="button" onclick="Print(document.getElementById('Brow').value, document.getElementById('Bcol').value)">
-    GetValue</button>
-</div>
-
+    <div id="sudoku_container">
+        
+            <div id="board">
+            </div>
+            <button id="boardsubmit" type="button" onclick="submit()">Submit</button>
+        <form id="Hint">
+            <input id="Brow" type="number" placeholder="Row" min="0" max="8"/>
+            <input id="Bcol" type="number" placeholder="Col" min="0" max="8"/>
+            <button id="bval" type="button" onclick="Print(document.getElementById('Brow').value, document.getElementById('Bcol').value)">Hint</button>
+        </form>
+    </div>
+</body>
 </html>

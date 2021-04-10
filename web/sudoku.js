@@ -5,7 +5,7 @@ function getRandomInt() {
   return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
 }
 
-function go()
+function go(level)
 {
     var a, mat = [];
     for (let i = 0; i < 9; i++)
@@ -27,10 +27,10 @@ function make_matrix(barray, R, C)
         tag+='<tr>';
         for (let j = 0; j < C; j++)  {
             var id = 'b' + i + ',' + j;
-            tag += '<td id='+'"'+id + '"' + '>';
+            tag += '<td class="sudokumat" id='+'"'+id + '"' + '>';
             if (barray[i][j] == 0)
             {
-                tag += '<input type="number" min="1" max="9" id="'+id+'_"/>';
+                tag += '<form><input type="number" min="1" max="9" value="0" id="'+id+'_"/></form>';
             }else
             {
                 tag += barray[i][j];
@@ -42,7 +42,8 @@ function make_matrix(barray, R, C)
     tag+='</table>';
     
     document.getElementById("board").innerHTML = tag;
-    document.getElementById("buttonForBoard").style.visibility = "visible";
+    document.getElementById("boardsubmit").style.visibility = "visible";
+    document.getElementById("Hint").style.visibility = "visible";
 }
 
 function submit()
@@ -68,8 +69,13 @@ function submit()
 function Value(r, c)
 {
     var id = 'b' + r + ',' + c;
+    var y = document.getElementById(id);
     var x = document.getElementById(id).innerHTML;
     if (x.length > 1) x = document.getElementById(id + '_').value;
+    
+    if (y.style.backgroundColor == "coral") y.style.backgroundColor = "white";
+    else y.style.backgroundColor = "coral";
+
     return x;
 }
 

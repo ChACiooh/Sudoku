@@ -7,14 +7,39 @@
   text-align: center;
 }
 
-td {
-  margin: 0px 0px 2px 0px;
-  font-size: 15px;
-  text-align: center;
-  width: 25px;
-  height: 25px;
+#sudoku_container {
+  display: flex;
+  height: 500px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-#buttonForBoard {
+.sudokumat {
+  text-align: center;
+  width: 40px;
+  height: 40px;
+}
+
+#board {
+  display: flex;
+  justify-content: center;
+}
+#boardsubmit {
+  margin: 10px;
   visibility: hidden;
+}
+
+#Brow {
+  width: 60px;
+}
+
+#Bcol {
+  width: 60px;
+}
+
+#Hint {
+  visibility: hidden;
+  padding: auto;
 }
