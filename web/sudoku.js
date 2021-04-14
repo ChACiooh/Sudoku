@@ -73,8 +73,7 @@ function Value(r, c)
     var x = document.getElementById(id).innerHTML;
     if (x.length > 1) x = document.getElementById(id + '_').value;
     
-    if (y.style.backgroundColor == "coral") y.style.backgroundColor = "white";
-    else y.style.backgroundColor = "coral";
+    y.style.animation = "wrongAnswer 1s ease-in-out"
 
     return x;
 }

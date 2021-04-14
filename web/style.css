@@ -22,6 +22,12 @@
   height: 40px;
 }
 
+@keyframes wrongAnswer{
+  50%{
+    background-color: coral;
+  }
+}
+
 #board {
   display: flex;
   justify-content: center;
