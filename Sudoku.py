@@ -117,19 +117,16 @@ def convert_sparse_matrix(board, num):
     return board
 
 
-def main():
+def main(level):
     board = gen_initial_sudoku()
     print(board)
     board = get_shuffled_sudoku(board)
     print(board)
-    if isPassed(board):
+    """if isPassed(board):
         print('통과')
     if isPassed(board.tolist()):
-        print('통과')
-    nanido = int(input('difficulty(1~3): '))
-    while nanido not in [1,2,3]:
-        print('reinput')
-        nanido = int(input('difficulty(1~3): '))
+        print('통과')"""
+    nanido = level["Level"]
     num = nanido * 20 + 5
     board = convert_sparse_matrix(board, num)
     print(board)
@@ -137,7 +134,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main({ "Level" : 1})
 
 """
 1. table 쓰기 (표) 9행 9열짜리 표, 입력받는 칸은 두고 입력 못받는 칸은 우리가 정해진 숫자 넣고
