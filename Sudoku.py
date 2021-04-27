@@ -128,9 +128,9 @@ def main(level):
         print('통과')"""
     nanido = level["Level"]
     num = nanido * 20 + 5
-    board = convert_sparse_matrix(board, num)
+    usr_board = convert_sparse_matrix(board, num)
     print(board)
-    return board
+    return board, usr_board
 
 
 if __name__ == "__main__":
