@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import json
 
 check = np.arange(1, 10)
 ijs = []
@@ -132,6 +133,8 @@ def main():
     num = nanido * 20 + 5
     board = convert_sparse_matrix(board, num)
     print(board)
+    return board
+
 
 if __name__ == "__main__":
     main()
