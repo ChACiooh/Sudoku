@@ -1,7 +1,13 @@
 import numpy as np
 import random
+import json
 
 check = np.arange(1, 10)
+ijs = []
+for i in range(9):
+    for j in range(9):
+        ijs.append((i,j))
+
 def filled_in_rule(array):
     if array.size != 9:
         return False
@@ -32,6 +38,7 @@ def isAcceptCols(board):
     return isAcceptRows(np.transpose(board))
 
 def isPassed(board, ci = 0, cj = 0):
+    board = np.array(board) # dealing list as np array. it is okay if already np array type.
     """if ci * cj != 0:
         # TODO
         pass"""
@@ -50,23 +57,23 @@ def gen_initial_sudoku():
         if i % 3 == 0:
             board[i] = np.concatenate((board[i-1][1:], board[i-1][:1]), axis=None)
     
-    #print('initial sudoku board:')
-    #print(board)
     return board
 
-def rotate(board, angle):
+def rotate(board, angle, size = 9):
     angle = np.radians(angle)
     M = np.array([[np.cos(angle), -np.sin(angle)],
                     [np.sin(angle), np.cos(angle)]])
-    new_board = np.zeros([9,9], dtype=int)
-    for i in range(9):
-        for j in range(9):
+    new_board = np.zeros([size,size], dtype=int)
+    for i in range(size):
+        for j in range(size):
             value = board[i][j]
-            tv = np.array([[i - 4, j - 4]])
+            tv = np.array([[i - int(size/2), j - int(size/2)]])
             k = M @ tv.transpose()
             k = k.reshape(2)
+            print(k)
             k = np.array([int(k[0]), int(k[1])])
-            new_board[ k[0] + 4 ][ k[1] + 4 ] = value
+            
+            new_board[ k[0] + int(size/2) ][ k[1] + int(size/2) ] = value
 
     return new_board
 
@@ -97,20 +104,42 @@ def get_shuffled_sudoku(board):
             board[fi][fj] = first
             board[si][sj] = second
 
-    n = random.randint(0, 3) * 90
+    #n = random.randint(0, 3) * 90
     #print('n:', n)
     #board = rotate(board, n)   TODO
-    print(board)
     return board
 
-def main():
+def convert_sparse_matrix(board, num):
+    num %= 81 # scaling
+    slist = random.sample(ijs, num) # list of tuples
+    for idx in slist:
+        board[idx[0]][idx[1]] = 0
+    return board
+
+
+def main(level):
     board = gen_initial_sudoku()
+    print(board)
     board = get_shuffled_sudoku(board)
-    if isPassed(board):
+    print(board)
+    """if isPassed(board):
         print('통과')
+    if isPassed(board.tolist()):
+        print('통과')"""
+    nanido = level["Level"]
+    num = nanido * 20 + 5
+    usr_board = convert_sparse_matrix(board, num)
+    hint_zone = []
+    for i in range(usr_board):
+        for j in range(usr_board[i]):
+            if usr_board[i][j] == 0:
+                hint_zone.append((i,j))
+    print(board)
+    return board, usr_board, hint_zone
+
 
 if __name__ == "__main__":
-    main()
+    main({ "Level" : 1})
 
 """
 1. table 쓰기 (표) 9행 9열짜리 표, 입력받는 칸은 두고 입력 못받는 칸은 우리가 정해진 숫자 넣고
