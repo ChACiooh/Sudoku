@@ -129,6 +129,7 @@ def main(level):
     nanido = level["Level"]
     num = nanido * 20 + 5
     usr_board = convert_sparse_matrix(board, num)
+<<<<<<< HEAD
     hint_zone = []
     for i in range(usr_board):
         for j in range(usr_board[i]):
@@ -136,6 +137,10 @@ def main(level):
                 hint_zone.append((i,j))
     print(board)
     return board, usr_board, hint_zone
+=======
+    print(board)
+    return board, usr_board
+>>>>>>> cc2763dd550253c2c30a3d9f1ce94afac8c17eb7
 
 
 if __name__ == "__main__":
